@@ -50,12 +50,13 @@ import runTextLint from './linters/textlint';
     const filepath = pathResolve(directory, fileName);
     const branch = `blog-at-issue/${fileName}`;
 
-    await Git()
-      .silent(true)
-      .clone(
-        `https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git`,
-        [directory]
-      );
+    await exec(
+      `git clone https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git ${directory}`,
+      [],
+      {
+        cwd: process.env.GITHUB_WORKSPACE
+      }
+    );
 
     const search = await octokit.search.issuesAndPullRequests({
       q: `repo:${repo} is:pr author:app/github-actions is:open ${fileName}`

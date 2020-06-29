@@ -86,7 +86,7 @@ import runTextLint from './linters/textlint';
 
     await git.commit(`${isExistFile ? 'Update' : 'Create'} ${fileName}`);
     await exec(
-      `git push 'https://${process.env.GITHUB_ACTOR}:${token}@github.com/${repo}.git' HEAD:${branch}`
+      `git push "https://${process.env.GITHUB_ACTOR}:${token}@github.com/${repo}.git" HEAD:${branch}`
     );
 
     if (!isExistPR) {

@@ -41,7 +41,6 @@ import runTextLint from './linters/textlint';
       title: payload.issue.title
     });
     const branch = `blog-at-issue/${fileName}`;
-    // core.setOutput('branch', branch);
 
     await exec(`git config --global user.email action@github.com`);
     await exec(`git config --global user.name GitHubAction`);
@@ -49,6 +48,7 @@ import runTextLint from './linters/textlint';
     const git: SimpleGit = Git();
 
     const branches = await git.branch();
+    core.debug(JSON.stringify(branches));
     const isExistPR = branches.all.includes(branch);
 
     await git.checkoutLocalBranch(branch);

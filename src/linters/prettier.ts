@@ -5,7 +5,8 @@ import { exec } from '@actions/exec';
 
 const runPrettier = async (fileName: string): Promise<void> => {
   const type = core.getInput('use-prettier');
-  if (!type) {
+  core.debug(type);
+  if (!type || type === 'false') {
     return;
   }
 

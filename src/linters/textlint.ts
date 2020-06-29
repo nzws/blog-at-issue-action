@@ -4,7 +4,8 @@ import { exec } from '@actions/exec';
 
 const runTextLint = async (fileName: string): Promise<void> => {
   const type = core.getInput('use-textlint');
-  if (!type) {
+  core.debug(type);
+  if (!type || type === 'false') {
     return;
   }
 

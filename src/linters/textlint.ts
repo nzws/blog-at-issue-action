@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
 import { exec } from '@actions/exec';
+import execLogger from '../utils/exec-logger';
 
 const runTextLint = async (fileName: string): Promise<void> => {
   const type = core.getInput('use-textlint');
@@ -9,26 +9,11 @@ const runTextLint = async (fileName: string): Promise<void> => {
     return;
   }
 
-  const { issue } = github.context;
-  const token = core.getInput('token', { required: true });
-  const octokit = github.getOctokit(token);
-
-  try {
-    await exec(`yarn textlint ${fileName}`);
-  } catch (e) {
-    await octokit.issues.createComment({
-      owner: issue.owner,
-      repo: issue.repo,
-      issue_number: issue.number,
-      body:
-        '*🚧 Alerted by [TextLint](https://github.com/textlint/textlint)*\n```\n' +
-        e.message +
-        '\n```'
-    });
-    throw e;
-  }
-
-  return;
+  await exec(`yarn textlint ${fileName}`);
+  await execLogger(
+    '[TextLint](https://github.com/textlint/textlint)',
+    `yarn textlint ${fileName}`
+  );
 };
 
 export default runTextLint;

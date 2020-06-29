@@ -18,9 +18,7 @@ import runTextLint from './linters/textlint';
     if (
       !payload.issue ||
       payload.issue.locked ||
-      !['opened', 'edited', 'reopened', 'labeled'].includes(
-        payload.action || ''
-      )
+      !['edited', 'reopened', 'labeled'].includes(payload.action || '')
     ) {
       core.info('exit: not issue / locked / action');
       return;

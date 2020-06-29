@@ -48,25 +48,10 @@ import runTextLint from './linters/textlint';
     await exec(`git config --global user.email action@github.com`);
     await exec(`git config --global user.name GitHubAction`);
 
-    const search = await octokit.search.issuesAndPullRequests({
-      q: `repo:${repo} is:pr author:app/github-actions is:open ${fileName}`
-    });
-    const isExistPR = !!search.data.items[0]; // 現在進行中のPR
-
     const git: SimpleGit = Git();
 
-    if (isExistPR) {
-      // ブランチの残骸が残ってれば消す
-      const branches = await git.branch();
-      if (branches.all.includes(branch)) {
-        await git.branch(['-D', branch]);
-      }
-      await octokit.git.deleteRef({
-        owner: issue.owner,
-        repo: issue.repo,
-        ref: `heads/${branch}`
-      });
-    }
+    const branches = await git.branch();
+    const isExistPR = branches.all.includes(branch);
 
     await git.checkoutLocalBranch(branch);
 
@@ -89,7 +74,14 @@ import runTextLint from './linters/textlint';
       `git push "https://${process.env.GITHUB_ACTOR}:${token}@github.com/${repo}.git" HEAD:${branch}`
     );
 
-    if (!isExistPR) {
+    if (isExistPR) {
+      await octokit.issues.createComment({
+        owner: issue.owner,
+        repo: issue.repo,
+        issue_number: issue.number,
+        body: `Updated the file!`
+      });
+    } else {
       const pr = await octokit.pulls.create({
         owner: issue.owner,
         repo: issue.repo,

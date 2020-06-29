@@ -49,9 +49,13 @@ Inputs:
 
 WIP
 
+NOTE: You need to delete the branch that was created.
+
 ### Update the post
 
 WIP
+
+NOTE: You need to delete the branch that was created.
 
 ## License
 

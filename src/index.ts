@@ -1,10 +1,9 @@
-import { resolve as pathResolve } from 'path';
 import { writeFileSync } from 'fs';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import { exec } from '@actions/exec';
 import Git, { SimpleGit } from 'simple-git';
 
-import exec, { workspaceExec } from './utils/exec';
 import replaceStr from './utils/replace';
 import isExist from './utils/is-exist';
 import runPrettier from './linters/prettier';
@@ -40,29 +39,21 @@ import runTextLint from './linters/textlint';
       return;
     }
 
-    const directory = pathResolve(
-      process.env.GITHUB_WORKSPACE || '',
-      'project'
-    );
     const fileName = replaceStr(core.getInput('filepath'), {
       title: payload.issue.title
     });
-    const filepath = pathResolve(directory, fileName);
     const branch = `blog-at-issue/${fileName}`;
+    // core.setOutput('branch', branch);
 
-    await workspaceExec(`git config --global user.email action@github.com`);
-    await workspaceExec(`git config --global user.name GitHubAction`);
-
-    await workspaceExec(
-      `git clone https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git ${directory}`
-    );
+    await exec(`git config --global user.email action@github.com`);
+    await exec(`git config --global user.name GitHubAction`);
 
     const search = await octokit.search.issuesAndPullRequests({
       q: `repo:${repo} is:pr author:app/github-actions is:open ${fileName}`
     });
     const isExistPR = !!search.data.items[0]; // 現在進行中のPR
 
-    const git: SimpleGit = Git(directory);
+    const git: SimpleGit = Git();
 
     if (!isExistPR) {
       // ブランチの残骸が残ってれば消す
@@ -81,11 +72,11 @@ import runTextLint from './linters/textlint';
 
     await exec(`yarn install --pure-lockfile`);
 
-    const isExistFile = isExist(filepath);
-    writeFileSync(filepath, body);
+    const isExistFile = isExist(fileName);
+    writeFileSync(fileName, body);
 
-    await runPrettier(filepath).then(() => runTextLint(filepath));
-    await git.add(filepath);
+    await runPrettier(fileName).then(() => runTextLint(fileName));
+    await git.add(fileName);
 
     const status = await git.status();
     if (!status.modified[0] && !status.created[0]) {
@@ -94,7 +85,9 @@ import runTextLint from './linters/textlint';
     }
 
     await git.commit(`${isExistFile ? 'Update' : 'Create'} ${fileName}`);
-    await git.push('origin', branch);
+    await exec(
+      `git push 'https://${process.env.GITHUB_ACTOR}:${token}@github.com/${repo}.git' HEAD:${branch}`
+    );
 
     if (!isExistPR) {
       const pr = await octokit.pulls.create({

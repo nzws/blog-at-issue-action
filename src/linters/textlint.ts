@@ -1,8 +1,8 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import exec from '../utils/exec';
+import { exec } from '@actions/exec';
 
-const runTextLint = async (filepath: string): Promise<void> => {
+const runTextLint = async (fileName: string): Promise<void> => {
   const type = core.getInput('use-textlint');
   if (!type) {
     return;
@@ -13,7 +13,7 @@ const runTextLint = async (filepath: string): Promise<void> => {
   const octokit = github.getOctokit(token);
 
   try {
-    await exec(`textlint ${filepath}`);
+    await exec(`textlint ${fileName}`);
   } catch (e) {
     await octokit.issues.createComment({
       owner: issue.owner,

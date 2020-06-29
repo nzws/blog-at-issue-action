@@ -50,8 +50,11 @@ import runTextLint from './linters/textlint';
     const filepath = pathResolve(directory, fileName);
     const branch = `blog-at-issue/${fileName}`;
 
+    await exec('git config --global user.email "action@github.com"');
+    await exec('git config --global user.name "GitHub Action"');
+
     await exec(
-      `git clone https://x-access-token:${token}$@github.com/${repo}.git ${directory}`,
+      `git clone https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git ${directory}`,
       [],
       {
         cwd: process.env.GITHUB_WORKSPACE

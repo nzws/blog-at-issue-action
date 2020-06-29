@@ -23,12 +23,11 @@ jobs:
     steps:
       - uses: nzws/blog-at-issue-action@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           filepath: 'blog-post/posts/{title}.md'
           label: 'blog' # Optional
           use-prettier: true # Optional
           use-textlint: true # Optional
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 Inputs:

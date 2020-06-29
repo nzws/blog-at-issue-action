@@ -72,7 +72,4 @@ dist
 /.nyc_output
 /dist
 /tmp
-
-babel-build/
-
-build/
+build

@@ -86,7 +86,7 @@ import runTextLint from './linters/textlint';
         dep => `${dep}@${packageJson.devDependencies[dep]}`
       )
     ];
-    await exec(`yarn global add ${deps.join(' ')}`);
+    await exec(`npm install ${deps.join(' ')} --no-save`);
 
     const isExistFile = isExist(filepath);
     writeFileSync(filepath, body);

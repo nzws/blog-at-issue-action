@@ -2,12 +2,15 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "commonjs",
+    "lib": ["es6"],
     "strict": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "babel-build"
+    "noFallthroughCasesInSwitch": true,
+    "declaration": false,
+    "outDir": "build",
+    "rootDir": "src",
+    "esModuleInterop": true
   },
-  "include": ["src"]
+  "exclude": ["node_modules", "dist", "build"]
 }

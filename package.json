@@ -1,0 +1,51 @@
+{
+  "name": "@nzws/blog-at-issue-action",
+  "version": "1.0.0",
+  "author": "nzws <dev@nzws.me>",
+  "main": "./build/index.js",
+  "license": "MIT",
+  "repository": "https://github.com/nzws/blog-at-issue-action.git",
+  "homepage": "https://github.com/nzws/blog-at-issue-action",
+  "private": true,
+  "scripts": {
+    "lint:prettier": "prettier --check --ignore-path .ignore .",
+    "lint:eslint": "eslint --cache --ignore-path .ignore \"**/*.js\"",
+    "lint:ts": "tsc",
+    "lint": "npm-run-all lint:* -s",
+    "format-all": "prettier --write --ignore-path .ignore .",
+    "format:prettier": "prettier --write --ignore-path .ignore .",
+    "format:js": "eslint --cache --fix --ignore-path .ignore \"**/*.js\"",
+    "format": "npm-run-all format:* -s",
+    "build:babel": "cross-env NODE_ENV=production babel src -d build --extensions \".ts\"",
+    "build:pack": "cross-env NODE_ENV=production ncc build babel-build/index.js --out build --minify",
+    "build": "npm-run-all build:* -s"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/exec": "^1.0.4",
+    "@actions/github": "^4.0.0",
+    "@actions/glob": "^0.1.0",
+    "prettier": "^2.0.5",
+    "simple-git": "^2.11.0",
+    "textlint": "^11.6.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-typescript": "^7.10.1",
+    "@nzws/prettier-config": "^1.0.0",
+    "@types/prettier": "^2.0.1",
+    "@typescript-eslint/eslint-plugin": "^3.4.0",
+    "@typescript-eslint/parser": "^3.4.0",
+    "@yuzulabo/eslint-config": "^1.0.1",
+    "@zeit/ncc": "^0.22.3",
+    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.2",
+    "eslint": "~7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "npm-run-all": "~4",
+    "typescript": "^3.9.5"
+  },
+  "prettier": "@nzws/prettier-config"
+}

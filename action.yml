@@ -1,0 +1,22 @@
+name: 'blog-at-issue-action'
+author: 'nzws <dev+action@nzws.me>'
+description: 'Easily post to your md blog (e.g. Hexo) using GitHub Issue.'
+inputs:
+  token:
+    description: "GitHub's token (Use `${{ secrets.GITHUB_TOKEN }}`)"
+    required: true
+  filepath:
+    description: 'The path of the markdown to save.'
+    required: true
+  labels:
+    description: 'An array of Issue labels to trigger.'
+    required: false
+  use-prettier:
+    description: "(Optional, default: prettier installed ? `'format'` : `false`) `'format'` or `'lint'` or `false`"
+    required: false
+  use-textlint:
+    description: "(Optional, default: textlint installed ? `'lint'` : `false`) `'lint'` or `false`"
+    required: false
+runs:
+  using: 'node12'
+  main: 'build/index.js'

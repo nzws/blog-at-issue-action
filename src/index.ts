@@ -51,7 +51,7 @@ import runTextLint from './linters/textlint';
     const branch = `blog-at-issue/${fileName}`;
 
     await exec(
-      `git clone https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git ${directory}`,
+      `git clone https://x-access-token:${token}$@github.com/${repo}.git ${directory}`,
       [],
       {
         cwd: process.env.GITHUB_WORKSPACE

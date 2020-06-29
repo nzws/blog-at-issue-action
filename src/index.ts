@@ -4,7 +4,7 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import Git, { SimpleGit } from 'simple-git';
 
-import exec from './utils/exec';
+import exec, { workspaceExec } from './utils/exec';
 import replaceStr from './utils/replace';
 import isExist from './utils/is-exist';
 import runPrettier from './linters/prettier';
@@ -50,20 +50,11 @@ import runTextLint from './linters/textlint';
     const filepath = pathResolve(directory, fileName);
     const branch = `blog-at-issue/${fileName}`;
 
-    await exec(
-      'git config --global user.email "action@github.com" && git config --global user.name "GitHub Action"',
-      [],
-      {
-        cwd: process.env.GITHUB_WORKSPACE
-      }
-    );
+    await workspaceExec(`git config --global user.email action@github.com`);
+    await workspaceExec(`git config --global user.name GitHubAction`);
 
-    await exec(
-      `git clone https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git ${directory}`,
-      [],
-      {
-        cwd: process.env.GITHUB_WORKSPACE
-      }
+    await workspaceExec(
+      `git clone https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git ${directory}`
     );
 
     const search = await octokit.search.issuesAndPullRequests({

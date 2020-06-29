@@ -1,14 +1,14 @@
 import { resolve as pathResolve } from 'path';
-import { readFileSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { exec } from '@actions/exec';
 import Git, { SimpleGit } from 'simple-git';
 
+import exec from './utils/exec';
 import replaceStr from './utils/replace';
 import isExist from './utils/is-exist';
 import runPrettier from './linters/prettier';
-// import runTextLint from './linters/textlint';
+import runTextLint from './linters/textlint';
 
 (async () => {
   try {
@@ -40,17 +40,19 @@ import runPrettier from './linters/prettier';
       return;
     }
 
-    await Git()
-      .silent(true)
-      .clone(
-        `https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git`
-      );
-    const directory = pathResolve(__dirname, repo ? repo.split('/')[1] : '');
+    const directory = pathResolve(__dirname, 'project');
     const fileName = replaceStr(core.getInput('filepath'), {
       title: payload.issue.title
     });
     const filepath = pathResolve(directory, fileName);
     const branch = `blog-at-issue/${fileName}`;
+
+    await Git()
+      .silent(true)
+      .clone(
+        `https://${process.env.GITHUB_ACTOR}:${token}$@github.com/${repo}.git`,
+        [directory]
+      );
 
     const search = await octokit.search.issuesAndPullRequests({
       q: `repo:${repo} is:pr author:app/github-actions is:open ${fileName}`
@@ -74,24 +76,12 @@ import runPrettier from './linters/prettier';
 
     await git.checkoutLocalBranch(branch);
 
-    // textlintのルールがほしいので力技で入れる
-    const packageJson = JSON.parse(
-      readFileSync(`${directory}/package.json`, 'utf8')
-    );
-    const deps = [
-      ...Object.keys(packageJson.dependencies).map(
-        dep => `${dep}@${packageJson.dependencies[dep]}`
-      ),
-      ...Object.keys(packageJson.devDependencies).map(
-        dep => `${dep}@${packageJson.devDependencies[dep]}`
-      )
-    ];
-    await exec(`npm install ${deps.join(' ')} --no-save`);
+    await exec(`yarn install --pure-lockfile`);
 
     const isExistFile = isExist(filepath);
     writeFileSync(filepath, body);
 
-    await runPrettier(filepath); // .then(() => runTextLint(filepath));
+    await runPrettier(filepath).then(() => runTextLint(filepath));
     await git.add(filepath);
 
     const status = await git.status();

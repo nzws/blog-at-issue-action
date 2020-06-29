@@ -17,7 +17,7 @@
     "format:js": "eslint --cache --fix --ignore-path .ignore \"**/*.js\"",
     "format": "npm-run-all format:* -s",
     "build:ts": "tsc",
-    "build:pack": "ncc build build/index.js",
+    "build:pack": "ncc build build/index.js --minify",
     "build": "npm-run-all build:* -s"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import * as prettier from 'prettier';
+import exec from '../utils/exec';
 
 const runPrettier = async (filepath: string): Promise<void> => {
   const type = core.getInput('use-prettier');
@@ -14,11 +14,29 @@ const runPrettier = async (filepath: string): Promise<void> => {
   const octokit = github.getOctokit(token);
 
   const body = readFileSync(filepath, 'utf8');
-  const options = prettier.resolveConfig.sync(filepath, {
-    editorconfig: true
-  });
 
-  const formatted = prettier.format(body, options || {});
+  if (type === 'lint') {
+    try {
+      await exec(`prettier --check ${filepath}`);
+    } catch (e) {
+      await octokit.issues.createComment({
+        owner: issue.owner,
+        repo: issue.repo,
+        issue_number: issue.number,
+        body:
+          '*🚧 Alerted by [Prettier](https://prettier.io/)*\n```\n' +
+          e.message +
+          '\n```'
+      });
+      throw e;
+    }
+  } else if (type === 'format') {
+    await exec(`prettier --write ${filepath}`);
+  } else {
+    throw new Error('unknown prettier type');
+  }
+
+  const formatted = readFileSync(filepath, 'utf8');
   if (body !== formatted) {
     await octokit.issues.update({
       owner: issue.owner,

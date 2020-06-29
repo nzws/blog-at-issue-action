@@ -12,10 +12,10 @@ inputs:
     description: 'An array of Issue labels to trigger.'
     required: false
   use-prettier:
-    description: "(Optional, default: prettier installed ? `'format'` : `false`) `'format'` or `'lint'` or `false`"
+    description: "(Optional, default: false) Format the markdown. The formatting result is also reflected in Issue. `'lint'` or `'format'` or `false`"
     required: false
   use-textlint:
-    description: "(Optional, default: textlint installed ? `'lint'` : `false`) `'lint'` or `false`"
+    description: '(Optional, default: false) Check the grammar of the text. If corrections are needed, send you the comment. `true` or `false`'
     required: false
 runs:
   using: 'node12'

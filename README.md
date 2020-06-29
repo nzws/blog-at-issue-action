@@ -47,7 +47,7 @@ Inputs:
 
 ### Create/Update the post
 
-WIP
+![](https://i.imgur.com/Y0dCz5t.gif)
 
 NOTE: You need to delete the branch that was created.
 

@@ -32,11 +32,9 @@ import runTextLint from './linters/textlint';
       core.info('exit: body is nothing');
       return;
     }
-    const labels = core.getInput('labels') || ['blog'];
+    const label = core.getInput('label') || 'blog';
     if (
-      !payload.issue.labels.some(({ name }: { name: string }) =>
-        labels.includes(name)
-      )
+      !payload.issue.labels.some(({ name }: { name: string }) => label === name)
     ) {
       core.info('exit: has not label');
       return;

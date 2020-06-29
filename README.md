@@ -25,7 +25,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           filepath: 'blog-post/posts/{title}.md'
-          labels: [blog] # Optional
+          label: 'blog' # Optional
           use-prettier: true # Optional
           use-textlint: true # Optional
 ```
@@ -35,7 +35,7 @@ Inputs:
 - `token`: GitHub's token (Use `${{ secrets.GITHUB_TOKEN }}`)
 - `filepath`: The path of the markdown to save.
   - `{title}`: Issue's title
-- `labels`: (Optional, default: `[blog]`) An array of Issue labels to trigger.
+- `label`: (Optional, default: `'blog'`) An issue labels to trigger.
 - `use-prettier`: (Optional, default: false) Format the markdown. The formatting result is also reflected in Issue. `true` or `false`
   - Using project's prettier config.
 - `use-textlint`: (Optional, default: false) Check the grammar of the text. If corrections are needed, send you the comment. `true` or `false`

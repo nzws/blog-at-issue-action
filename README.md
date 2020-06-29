@@ -47,7 +47,7 @@ Inputs:
 
 ### Create/Update the post
 
-![](https://i.imgur.com/Y0dCz5t.gif)
+![](https://user-images.githubusercontent.com/14953122/86038914-a4b11080-ba7c-11ea-8eb2-0977c47e0787.gif)
 
 NOTE: You need to delete the branch that was created.
 

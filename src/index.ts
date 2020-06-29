@@ -8,7 +8,7 @@ import Git, { SimpleGit } from 'simple-git';
 import replaceStr from './utils/replace';
 import isExist from './utils/is-exist';
 import runPrettier from './linters/prettier';
-import runTextLint from './linters/textlint';
+// import runTextLint from './linters/textlint';
 
 (async () => {
   try {
@@ -91,7 +91,7 @@ import runTextLint from './linters/textlint';
     const isExistFile = isExist(filepath);
     writeFileSync(filepath, body);
 
-    await runPrettier(filepath).then(() => runTextLint(filepath));
+    await runPrettier(filepath); // .then(() => runTextLint(filepath));
     await git.add(filepath);
 
     const status = await git.status();

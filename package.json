@@ -17,6 +17,7 @@
     "format:js": "eslint --cache --fix --ignore-path .ignore \"**/*.js\"",
     "format": "npm-run-all format:* -s",
     "build:ts": "tsc",
+    "build:pack": "ncc build build/index.js",
     "build": "npm-run-all build:* -s"
   },
   "dependencies": {
@@ -32,13 +33,13 @@
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
     "@yuzulabo/eslint-config": "^1.0.1",
+    "@zeit/ncc": "^0.22.3",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
     "eslint": "~7.3.1",
     "eslint-config-prettier": "^6.11.0",
     "npm-run-all": "~4",
     "prettier": "^2.0.5",
-    "textlint": "^11.6.3",
     "typescript": "^3.9.5"
   },
   "prettier": "@nzws/prettier-config"

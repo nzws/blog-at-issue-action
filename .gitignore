@@ -70,3 +70,4 @@ typings/
 *-error.log
 /.nyc_output
 /tmp
+build/

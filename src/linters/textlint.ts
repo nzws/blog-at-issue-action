@@ -14,7 +14,7 @@ const runTextLint = async (fileName: string): Promise<void> => {
   const octokit = github.getOctokit(token);
 
   try {
-    await exec(`textlint ${fileName}`);
+    await exec(`yarn textlint ${fileName}`);
   } catch (e) {
     await octokit.issues.createComment({
       owner: issue.owner,

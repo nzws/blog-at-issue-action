@@ -18,7 +18,7 @@ const runPrettier = async (fileName: string): Promise<void> => {
 
   if (type === 'lint') {
     try {
-      await exec(`prettier --check ${fileName}`);
+      await exec(`yarn prettier --check ${fileName}`);
     } catch (e) {
       await octokit.issues.createComment({
         owner: issue.owner,
@@ -32,7 +32,7 @@ const runPrettier = async (fileName: string): Promise<void> => {
       throw e;
     }
   } else if (type === 'format') {
-    await exec(`prettier --write ${fileName}`);
+    await exec(`yarn prettier --write ${fileName}`);
   } else {
     throw new Error('unknown prettier type');
   }

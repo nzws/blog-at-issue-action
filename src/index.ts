@@ -86,6 +86,7 @@ import runTextLint from './linters/textlint';
         owner: issue.owner,
         repo: issue.repo,
         title: `${isExistFile ? 'Update' : 'Create'} ${fileName} by Blog@Issue`,
+        body: `close #${issue.number}`,
         head: branch,
         base: payload.repository?.default_branch || 'master'
       });

@@ -26,7 +26,6 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       - uses: nzws/blog-at-issue-action@master
-        id: blog-at-issue
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           filepath: 'blog-post/posts/{title}.md'

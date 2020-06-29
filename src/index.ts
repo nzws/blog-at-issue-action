@@ -55,7 +55,7 @@ import runTextLint from './linters/textlint';
 
     const git: SimpleGit = Git();
 
-    if (!isExistPR) {
+    if (isExistPR) {
       // ブランチの残骸が残ってれば消す
       const branches = await git.branch();
       if (branches.all.includes(branch)) {

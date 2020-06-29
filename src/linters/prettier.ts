@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import execLogger from '../utils/exec-logger';
@@ -37,15 +37,9 @@ const runPrettier = async (fileName: string): Promise<void> => {
       owner: issue.owner,
       repo: issue.repo,
       issue_number: issue.number,
-      body: '*✨ Formatted by [Prettier](https://prettier.io/)*'
+      body: `*✨ Formatted by ${prettier}*`
     });
-
-    writeFileSync(fileName, formatted);
-
-    return;
   }
-
-  return;
 };
 
 export default runPrettier;

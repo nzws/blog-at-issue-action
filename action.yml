@@ -15,7 +15,7 @@ inputs:
     description: "(Optional, default: false) Format the markdown. The formatting result is also reflected in Issue. `'lint'` or `'format'` or `false`"
     required: false
   use-textlint:
-    description: '(Optional, default: false) Check the grammar of the text. If corrections are needed, send you the comment. `true` or `false`'
+    description: "(Optional, default: false) Check the grammar of the text. If corrections are needed, send you the comment. `'lint'` or `'format'` or `false`"
     required: false
 runs:
   using: 'node12'

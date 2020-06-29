@@ -30,8 +30,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           filepath: 'blog-post/posts/{title}.md'
           label: 'blog' # Optional
-          use-prettier: true # Optional
-          use-textlint: true # Optional
+          use-prettier: 'format' # Optional
+          use-textlint: 'format' # Optional
 ```
 
 Inputs:
@@ -42,16 +42,10 @@ Inputs:
 - `label`: (Optional, default: `'blog'`) An issue labels to trigger.
 - `use-prettier`: (Optional, default: false) Format the markdown. The formatting result is also reflected in Issue. `'lint'` or `'format'` or `false`
   - Using project's prettier config.
-- `use-textlint`: (Optional, default: false) Check the grammar of the text. If corrections are needed, send you the comment. `true` or `false`
+- `use-textlint`: (Optional, default: false) Check the grammar of the text. If corrections are needed, send you the comment. `'lint'` or `'format'` or `false`
   - Using project's textlint config.
 
-### Create new post
-
-WIP
-
-NOTE: You need to delete the branch that was created.
-
-### Update the post
+### Create/Update the post
 
 WIP
 

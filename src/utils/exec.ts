@@ -6,7 +6,7 @@ const exec = async (
   args?: string[],
   options?: ExecOptions
 ): Promise<number> => {
-  const directory = pathResolve(__dirname, 'project');
+  const directory = pathResolve(process.env.GITHUB_WORKSPACE || '', 'project');
 
   return GHExec(commandLine, args, {
     failOnStdErr: true,

@@ -40,7 +40,10 @@ import runTextLint from './linters/textlint';
       return;
     }
 
-    const directory = pathResolve(__dirname, 'project');
+    const directory = pathResolve(
+      process.env.GITHUB_WORKSPACE || '',
+      'project'
+    );
     const fileName = replaceStr(core.getInput('filepath'), {
       title: payload.issue.title
     });

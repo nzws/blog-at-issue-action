@@ -48,8 +48,7 @@ import runTextLint from './linters/textlint';
     const git: SimpleGit = Git();
 
     const branches = await git.branch();
-    core.debug(JSON.stringify(branches));
-    const isExistPR = branches.all.includes(branch);
+    const isExistPR = branches.all.includes(`remotes/origin/${branch}`);
 
     await git.checkoutLocalBranch(branch);
 

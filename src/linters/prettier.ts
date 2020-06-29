@@ -26,6 +26,9 @@ const runPrettier = async (fileName: string): Promise<void> => {
   }
 
   const formatted = readFileSync(fileName, 'utf8');
+  core.debug(body);
+  core.debug(formatted);
+  core.debug(body !== formatted ? 'format: true' : 'format: false');
   if (body !== formatted) {
     await octokit.issues.update({
       owner: issue.owner,

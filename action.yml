@@ -3,7 +3,7 @@ author: 'nzws <dev+action@nzws.me>'
 description: 'Easily post to your md blog (e.g. Hexo) using GitHub Issue.'
 inputs:
   token:
-    description: "GitHub's token (Use `${{ secrets.GITHUB_TOKEN }}`)"
+    description: "GitHub's token"
     required: true
   filepath:
     description: 'The path of the markdown to save.'

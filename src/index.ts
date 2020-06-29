@@ -13,7 +13,7 @@ import runTextLint from './linters/textlint';
 (async () => {
   try {
     const { payload, issue } = github.context;
-    const token = core.getInput('token', { required: true });
+    const token = process.env.GITHUB_TOKEN || '';
     const octokit = github.getOctokit(token);
     const repo = process.env.GITHUB_REPOSITORY;
     if (

@@ -10,7 +10,7 @@ const runTextLint = async (filepath: string): Promise<void> => {
   }
 
   const { issue } = github.context;
-  const token = core.getInput('token', { required: true });
+  const token = process.env.GITHUB_TOKEN || '';
   const octokit = github.getOctokit(token);
 
   const body = readFileSync(filepath, 'utf8');

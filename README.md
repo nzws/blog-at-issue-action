@@ -22,9 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-          fetch-depth: 0
       - uses: nzws/blog-at-issue-action@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

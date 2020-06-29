@@ -4,16 +4,16 @@ import * as github from '@actions/github';
 import { TextLintEngine } from 'textlint';
 
 const runTextLint = async (filepath: string): Promise<void> => {
-  const { issue } = github.context;
-  const token = core.getInput('token', { required: true });
-  const octokit = github.getOctokit(token);
-
   const type = core.getInput('use-textlint');
-  const body = readFileSync(filepath, 'utf8');
   if (!type) {
     return;
   }
 
+  const { issue } = github.context;
+  const token = core.getInput('token', { required: true });
+  const octokit = github.getOctokit(token);
+
+  const body = readFileSync(filepath, 'utf8');
   const engine = new TextLintEngine({
     rulePaths: [
       filepath

@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { exec } from '@actions/exec';
 import execLogger from '../utils/exec-logger';
 
 const runPrettier = async (fileName: string): Promise<void> => {
@@ -14,16 +13,14 @@ const runPrettier = async (fileName: string): Promise<void> => {
   const { issue } = github.context;
   const token = core.getInput('token', { required: true });
   const octokit = github.getOctokit(token);
+  const prettier = '[Prettier](https://prettier.io/)';
 
   const body = readFileSync(fileName, 'utf8');
 
   if (type === 'lint') {
-    await execLogger(
-      '[Prettier](https://prettier.io/)',
-      `yarn prettier --check ${fileName}`
-    );
+    await execLogger(prettier, `yarn prettier --check ${fileName}`);
   } else if (type === 'format') {
-    await exec(`yarn prettier --write ${fileName}`);
+    await execLogger(prettier, `yarn prettier --write ${fileName}`);
   } else {
     throw new Error('unknown prettier type');
   }

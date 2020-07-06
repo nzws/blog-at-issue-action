@@ -28,7 +28,7 @@
     "simple-git": "^2.11.0"
   },
   "devDependencies": {
-    "@nzws/prettier-config": "^1.0.0",
+    "@nzws/prettier-config": "^1.0.1",
     "@types/prettier": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
